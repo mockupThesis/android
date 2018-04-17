@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hu.webandmore.androidmocapclient.ui.ui.mockup_debug.MockupDebugFragment">
+    tools:context="hu.webandmore.androidmocapclient.app.ui.mockup_debug.MockupDebugFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

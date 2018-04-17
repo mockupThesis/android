@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hu.webandmore.androidmocapclient.ui.ui.settings.SettingsActivity">
+    tools:context="hu.webandmore.androidmocapclient.app.ui.settings.SettingsActivity">
 
 </android.support.constraint.ConstraintLayout>

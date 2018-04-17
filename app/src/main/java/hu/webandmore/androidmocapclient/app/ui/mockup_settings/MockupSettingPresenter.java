@@ -1,6 +1,6 @@
-package hu.webandmore.androidmocapclient.ui.ui.mockup_settings;
+package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
-import hu.webandmore.androidmocapclient.ui.ui.Presenter;
+import hu.webandmore.androidmocapclient.app.ui.Presenter;
 
 public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
 

@@ -1,4 +1,4 @@
-package hu.webandmore.androidmocapclient.ui.ui.mockup_debug;
+package hu.webandmore.androidmocapclient.app.ui.mockup_debug;
 
 public interface MockupDebugScreen {
 

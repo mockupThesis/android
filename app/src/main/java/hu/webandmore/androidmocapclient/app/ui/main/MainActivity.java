@@ -1,4 +1,4 @@
-package hu.webandmore.androidmocapclient.ui.ui.main;
+package hu.webandmore.androidmocapclient.app.ui.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

@@ -1,6 +1,6 @@
-package hu.webandmore.androidmocapclient.ui.ui.main;
+package hu.webandmore.androidmocapclient.app.ui.main;
 
-import hu.webandmore.androidmocapclient.ui.ui.Presenter;
+import hu.webandmore.androidmocapclient.app.ui.Presenter;
 
 public class MainPresenter extends Presenter<MainScreen> {
 

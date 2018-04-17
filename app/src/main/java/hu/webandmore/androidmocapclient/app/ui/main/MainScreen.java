@@ -1,4 +1,4 @@
-package hu.webandmore.androidmocapclient.ui.ui.main;
+package hu.webandmore.androidmocapclient.app.ui.main;
 
 interface MainScreen {
 

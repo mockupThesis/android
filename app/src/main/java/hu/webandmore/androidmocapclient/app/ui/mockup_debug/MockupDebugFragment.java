@@ -1,4 +1,4 @@
-package hu.webandmore.androidmocapclient.ui.ui.mockup_settings;
+package hu.webandmore.androidmocapclient.app.ui.mockup_debug;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,19 +10,27 @@ import android.view.ViewGroup;
 
 import hu.webandmore.androidmocapclient.R;
 
-public class MokcupSettingsFragment extends Fragment implements MockupSettingsScreen {
-
-    private static String TAG = "MokcupSettingsFragment";
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link MockupDebugFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link MockupDebugFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class MockupDebugFragment extends Fragment implements MockupDebugScreen {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public MokcupSettingsFragment() {
+    public MockupDebugFragment() {
         // Required empty public constructor
     }
 
@@ -32,11 +40,11 @@ public class MokcupSettingsFragment extends Fragment implements MockupSettingsSc
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MokcupSettingsFragment.
+     * @return A new instance of fragment MockupDebugFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MokcupSettingsFragment newInstance(String param1, String param2) {
-        MokcupSettingsFragment fragment = new MokcupSettingsFragment();
+    public static MockupDebugFragment newInstance(String param1, String param2) {
+        MockupDebugFragment fragment = new MockupDebugFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -57,7 +65,7 @@ public class MokcupSettingsFragment extends Fragment implements MockupSettingsSc
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mokcup_settings, container, false);
+        return inflater.inflate(R.layout.fragment_mockup_debug, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -85,12 +93,32 @@ public class MokcupSettingsFragment extends Fragment implements MockupSettingsSc
     }
 
     @Override
-    public void getMockupSettings() {
+    public void drawGraph() {
 
     }
 
     @Override
-    public void saveMockupSetting() {
+    public void getGraphFilters() {
+
+    }
+
+    @Override
+    public void setGraphFilters() {
+
+    }
+
+    @Override
+    public void recordData() {
+
+    }
+
+    @Override
+    public void backupData() {
+
+    }
+
+    @Override
+    public void checkMockupConnection() {
 
     }
 
@@ -99,6 +127,16 @@ public class MokcupSettingsFragment extends Fragment implements MockupSettingsSc
 
     }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

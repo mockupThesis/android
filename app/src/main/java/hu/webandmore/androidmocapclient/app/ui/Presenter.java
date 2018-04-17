@@ -1,4 +1,4 @@
-package hu.webandmore.androidmocapclient.ui.ui;
+package hu.webandmore.androidmocapclient.app.ui;
 
 /***
  * Abstract presenter class
