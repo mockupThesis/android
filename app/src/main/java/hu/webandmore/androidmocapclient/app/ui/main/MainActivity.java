@@ -1,5 +1,6 @@
 package hu.webandmore.androidmocapclient.app.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import hu.webandmore.androidmocapclient.R;
+import hu.webandmore.androidmocapclient.app.ui.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,10 +66,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        Intent intent;
         if (id == R.id.nav_home) {
-            
+            intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
-
+            intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_debug) {
 
         }
