@@ -20,7 +20,4 @@ public interface WiFiService {
     @POST("reconnect")
     Call<Void> reconnnectToWiFi();
 
-    @POST("reboot")
-    Call<Void> rebootSensor();
-
 }
