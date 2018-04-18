@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,12 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
     @BindView(R.id.wifi_feedback_text)
     TextView mWiFiFeedbackText;
+
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
+
+    @BindView(R.id.mainLayout)
+    LinearLayout mainLayout;
 
     private MockupSettingPresenter mockupSettingPresenter;
 
@@ -82,7 +90,7 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
     @Override
     public void saveWiFiSetting() {
-
+        mockupSettingPresenter.saveWifiTask();
     }
 
     @Override
@@ -98,8 +106,16 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     }
 
     @Override
-    public void checkWiFiArguments() {
-
+    public boolean checkWiFiArguments() {
+        if(mWiFiSSID.getText().toString().isEmpty()) {
+            mWiFiSSID.setError(getString(R.string.required_field));
+            return false;
+        }
+        if(mWiFiPassword.getText().toString().isEmpty()) {
+            mWiFiPassword.setError(getString(R.string.required_field));
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -107,9 +123,28 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
         Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
     }
 
-    @OnClick(R.id.save_wifi)
-    public void saveWiFi(){
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        mainLayout.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void hideProgressBar() {
+        mainLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.save_wifi)
+    public void setWiFi(){
+        if(checkWiFiArguments()) {
+            Log.i(TAG, "WiFi arguments checked!");
+            WiFiModel wiFi = new WiFiModel();
+            wiFi.setSsid(mWiFiSSID.getText().toString());
+            wiFi.setPassword(mWiFiPassword.getText().toString());
+            wiFi.setAp(false);
+            mockupSettingPresenter.setWiFiTask(wiFi);
+        }
     }
 
 }

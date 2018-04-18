@@ -27,5 +27,6 @@
     <string name="successful">Successful!</string>
     <string name="saved_successfully">Saved successfully!</string>
     <string name="get_wifi_failure">Get WiFi status failure</string>
+    <string name="required_field">Required field!</string>
 
 </resources>

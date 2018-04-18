@@ -72,11 +72,13 @@ public class WiFiInteractor {
     }
 
     public void setWiFiSettings(WiFiModel wiFi) {
+        Log.i(TAG, "setWiFiSettings");
         Call<Void> call = wiFiService.setWiFi(wiFi);
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.i(TAG, "setWiFiSettings onResponse");
                 if(response.isSuccessful()) {
                     wiFiEvent.setCode(response.code());
                     wiFiEvent.setWiFiEventType(WiFiEventType.SET);
@@ -93,9 +95,13 @@ public class WiFiInteractor {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Log.i(TAG, "setWiFiSettings onFailure");
                 if(t != null) {
                     wiFiEvent.setErrorMessage(t.getLocalizedMessage());
                     wiFiEvent.setThrowable(t);
+                    EventBus.getDefault().post(wiFiEvent);
+                }  else {
+                    wiFiEvent.setErrorMessage(context.getString(R.string.get_wifi_failure));
                     EventBus.getDefault().post(wiFiEvent);
                 }
             }
@@ -127,6 +133,9 @@ public class WiFiInteractor {
                 if(t != null) {
                     wiFiEvent.setErrorMessage(t.getLocalizedMessage());
                     wiFiEvent.setThrowable(t);
+                    EventBus.getDefault().post(wiFiEvent);
+                }  else {
+                    wiFiEvent.setErrorMessage(context.getString(R.string.get_wifi_failure));
                     EventBus.getDefault().post(wiFiEvent);
                 }
             }

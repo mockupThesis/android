@@ -8,7 +8,9 @@ public interface MockupSettingsScreen {
     void setWiFiSettings();
     void saveWiFiSetting();
     void showWiFiFeedback(String feedbackMsg, boolean failure);
-    void checkWiFiArguments();
+    boolean checkWiFiArguments();
     void showError(String errorMsg);
+    void showProgressBar();
+    void hideProgressBar();
 
 }

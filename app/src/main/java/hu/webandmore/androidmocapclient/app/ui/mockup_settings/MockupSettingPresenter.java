@@ -57,6 +57,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
 
     public void getWiFiTask() {
         Log.i(TAG, "getWiFiTask");
+        screen.showProgressBar();
         networkExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -66,15 +67,19 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
     }
 
     public void setWiFiTask(final WiFiModel wiFi) {
+        Log.i(TAG, "setWiFiTask");
+        screen.showProgressBar();
         networkExecutor.execute(new Runnable() {
             @Override
             public void run() {
+                Log.i(TAG, "setWiFiTask run");
                 wiFiInteractor.setWiFiSettings(wiFi);
             }
         });
     }
 
     public void saveWifiTask() {
+        screen.showProgressBar();
         networkExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -86,6 +91,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(final WiFiEvent event) {
         Log.i(TAG, "onEvent");
+        screen.hideProgressBar();
         if (event.getThrowable() != null) {
             Log.i(TAG, "onEvent getThrowable not null");
             event.getThrowable().printStackTrace();
@@ -107,6 +113,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                     } else if(event.getWiFiEventType() == WiFiEventType.SET) {
                         screen.showWiFiFeedback(context.getString(R.string.wifi_changed),
                                 false);
+                        screen.saveWiFiSetting();
                     } else {
                         screen.showWiFiFeedback(context.getString(R.string.saved_successfully),
                                 false);
