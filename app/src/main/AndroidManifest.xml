@@ -19,7 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.ui.settings.SettingsActivity" />
+        <activity
+            android:name=".app.ui.settings.SettingsActivity"
+            android:label="@string/settings_title"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity android:name=".app.utils.MainMenu"/>
     </application>
 
 </manifest>

@@ -10,5 +10,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mockup">MockUp</string>
     <string name="humanoid_robot">Humanoid robot</string>
+    <string name="settings_title">Settings</string>
 
 </resources>
