@@ -8,7 +8,7 @@ import retrofit2.http.POST;
 
 public interface WiFiService {
 
-    @GET("Status")
+    @GET("status")
     Call<WiFiModel> getWiFiStatus();
 
     @POST("wifi")

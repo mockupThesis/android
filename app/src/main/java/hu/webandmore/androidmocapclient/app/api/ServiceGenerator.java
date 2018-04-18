@@ -24,9 +24,7 @@ public class ServiceGenerator {
         httpBuilder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Request.Builder requestBuilder = chain.request().newBuilder()
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json");
+                Request.Builder requestBuilder = chain.request().newBuilder();
 
                 return chain.proceed(requestBuilder.build());
             }

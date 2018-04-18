@@ -1,5 +1,6 @@
 package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -137,14 +142,47 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
     @OnClick(R.id.save_wifi)
     public void setWiFi(){
-        if(checkWiFiArguments()) {
+        /*if(checkWiFiArguments()) {
             Log.i(TAG, "WiFi arguments checked!");
             WiFiModel wiFi = new WiFiModel();
             wiFi.setSsid(mWiFiSSID.getText().toString());
             wiFi.setPassword(mWiFiPassword.getText().toString());
             wiFi.setAp(false);
             mockupSettingPresenter.setWiFiTask(wiFi);
+        }*/
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                executePING();
+            }
+        });
+    }
+
+    private boolean executePING(){
+        System.out.println("execute PING");
+        Runtime runtime = Runtime.getRuntime();
+        try
+        {
+            Process  mIpAddrProcess = runtime.exec("/system/bin/ping -c 1 192.168.4.1");
+            int mExitValue = mIpAddrProcess.waitFor();
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(mIpAddrProcess.getInputStream()));
+
+            // Grab the results
+            StringBuilder log = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                //log.append(line + "\n");
+            }
+            System.out.println(" mExitValue  success " + mExitValue);
+            return mExitValue == 0;
         }
+        catch (InterruptedException | IOException ignore)
+        {
+            ignore.printStackTrace();
+            System.out.println(" Exception:" + ignore);
+        }
+        return false;
     }
 
 }
