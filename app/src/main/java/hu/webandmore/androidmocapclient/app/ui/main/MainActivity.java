@@ -1,5 +1,7 @@
 package hu.webandmore.androidmocapclient.app.ui.main;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -34,6 +36,14 @@ public class MainActivity extends MainMenu {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            final ComponentName cn =
+                    new ComponentName("com.android.settings",
+                            "com.android.settings.wifi.WifiSettings");
+            intent.setComponent(cn);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             return true;
         }
 
