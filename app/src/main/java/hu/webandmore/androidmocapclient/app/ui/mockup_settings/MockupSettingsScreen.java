@@ -1,11 +1,14 @@
 package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
+import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
+
 public interface MockupSettingsScreen {
 
-    void getWiFiSettings();
+    void fillWiFiSettings(WiFiModel wiFiModel);
+    void setWiFiSettings();
     void saveWiFiSetting();
-    void showWiFiFeedback();
+    void showWiFiFeedback(String feedbackMsg, boolean failure);
     void checkWiFiArguments();
-    void showError();
+    void showError(String errorMsg);
 
 }

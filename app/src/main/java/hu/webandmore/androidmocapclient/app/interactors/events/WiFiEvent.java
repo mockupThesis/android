@@ -1,7 +1,7 @@
 package hu.webandmore.androidmocapclient.app.interactors.events;
 
-
 import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
+import hu.webandmore.androidmocapclient.app.utils.WiFiEventType;
 
 public class WiFiEvent {
 
@@ -9,6 +9,7 @@ public class WiFiEvent {
     private WiFiModel wiFi;
     private Throwable throwable;
     private String errorMessage;
+    private WiFiEventType wiFiEventType;
 
     public int getCode() {
         return code;
@@ -40,5 +41,13 @@ public class WiFiEvent {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public WiFiEventType getWiFiEventType() {
+        return wiFiEventType;
+    }
+
+    public void setWiFiEventType(WiFiEventType wiFiEventType) {
+        this.wiFiEventType = wiFiEventType;
     }
 }

@@ -22,5 +22,10 @@
     <string name="password">Password</string>
     <string name="save">Save</string>
     <string name="mqtt_settings">MQTT Settings</string>
+    <string name="failure">Failure</string>
+    <string name="wifi_changed">WiFi Settings changed</string>
+    <string name="successful">Successful!</string>
+    <string name="saved_successfully">Saved successfully!</string>
+    <string name="get_wifi_failure">Get WiFi status failure</string>
 
 </resources>

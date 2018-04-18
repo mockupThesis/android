@@ -1,79 +1,82 @@
 package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hu.webandmore.androidmocapclient.R;
+import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
 
-public class MockupSettingsFragment extends Fragment implements MockupSettingsScreen{
+public class MockupSettingsFragment extends Fragment implements MockupSettingsScreen {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "MockupSettingsFragment";
 
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    @BindView(R.id.wifi_ssid)
+    EditText mWiFiSSID;
+
+    @BindView(R.id.wifi_password)
+    EditText mWiFiPassword;
+
+    @BindView(R.id.wifi_feedback)
+    RelativeLayout mWiFiFeedbackLayout;
+
+    @BindView(R.id.wifi_feedback_text)
+    TextView mWiFiFeedbackText;
+
+    private MockupSettingPresenter mockupSettingPresenter;
 
     public MockupSettingsFragment() {
         // Required empty public constructor
     }
 
-    public static MockupSettingsFragment newInstance(String param1, String param2) {
+    public static MockupSettingsFragment newInstance() {
         MockupSettingsFragment fragment = new MockupSettingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mockup_settings, container, false);
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        View view = inflater.inflate(R.layout.fragment_mockup_settings, container,
+                false);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        Log.i(TAG, "onCreateView");
+        ButterKnife.bind(this, view);
+        mockupSettingPresenter = new MockupSettingPresenter(getContext());
+        mockupSettingPresenter.attachScreen(this);
+        mockupSettingPresenter.registerWiFiEvent();
+
+        return view;
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onResume(){
+        super.onResume();
+        Log.i(TAG, "onResume");
+        mockupSettingPresenter.getWiFiTask();
     }
 
     @Override
-    public void getWiFiSettings() {
+    public void fillWiFiSettings(WiFiModel wiFiModel) {
+        mWiFiSSID.setText(wiFiModel.getSsid());
+        mWiFiPassword.setText(wiFiModel.getPassword());
+    }
+
+    @Override
+    public void setWiFiSettings() {
 
     }
 
@@ -83,8 +86,15 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     }
 
     @Override
-    public void showWiFiFeedback() {
-
+    public void showWiFiFeedback(String feedbackMsg, boolean failure) {
+        if(failure) {
+            mWiFiFeedbackLayout.setBackground(ContextCompat.getDrawable(getContext(),
+                    R.drawable.disconnected_card_feedback));
+        } else {
+            mWiFiFeedbackLayout.setBackground(ContextCompat.getDrawable(getContext(),
+                    R.drawable.connected_card_feedback));
+        }
+        mWiFiFeedbackText.setText(feedbackMsg);
     }
 
     @Override
@@ -93,22 +103,13 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     }
 
     @Override
-    public void showError() {
+    public void showError(String errorMsg) {
+        Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.save_wifi)
+    public void saveWiFi(){
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

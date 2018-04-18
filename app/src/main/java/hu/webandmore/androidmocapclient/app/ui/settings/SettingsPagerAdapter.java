@@ -20,7 +20,7 @@ public class SettingsPagerAdapter extends FragmentPagerAdapter {
     }
 
     private MockupSettingsFragment mockupSettingsFragment =
-            MockupSettingsFragment.newInstance("asd", "ASD");
+            MockupSettingsFragment.newInstance();
     private RobotSettingsFragment robotSettingsFragment =
             RobotSettingsFragment.newInstance("Asd", "ad");
 
