@@ -81,7 +81,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="50"
                 android:layout_height="wrap_content"
-                android:text="@string/host"
+                android:hint="@string/host"
+                android:textColorHint="@color/grey"
                 android:textSize="14sp"
                 android:textColor="@color/black"/>
 
@@ -90,7 +91,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="50"
                 android:layout_height="wrap_content"
-                android:text="@string/port"
+                android:hint="@string/port"
+                android:textColorHint="@color/grey"
                 android:textSize="14sp"
                 android:textColor="@color/black"/>
 
@@ -98,7 +100,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="30dp"
@@ -111,7 +113,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/black"/>
 
         <RelativeLayout
             android:id="@+id/mockup_feedback"
