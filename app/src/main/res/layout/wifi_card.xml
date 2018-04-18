@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="@string/mockup_connect"
+                android:text="@string/wifi_settings"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -52,8 +52,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_weight="70"
-                android:text="@string/host"
+                android:layout_weight="50"
+                android:text="@string/ssid"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -61,8 +61,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
-                android:layout_weight="30"
-                android:text="@string/port"
+                android:layout_weight="50"
+                android:text="@string/password"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -76,23 +76,23 @@
             android:weightSum="100">
 
             <EditText
-                android:id="@+id/mockup_host"
+                android:id="@+id/wifi_ssid"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="70"
-                android:hint="@string/host"
+                android:hint="@string/ssid"
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/mockup_port"
+                android:id="@+id/wifi_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
-                android:hint="@string/port"
-                android:inputType="number"
+                android:hint="@string/password"
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
                 android:textSize="14sp" />
@@ -100,7 +100,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/connect_mockup"
+            android:id="@+id/save_wifi"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="10dp"
@@ -108,7 +108,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_rounded_primary"
-            android:text="@string/connect"
+            android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -118,19 +118,19 @@
             android:background="@color/black" />
 
         <RelativeLayout
-            android:id="@+id/mockup_feedback"
+            android:id="@+id/wifi_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/disconnected_card_feedback">
+            android:background="@drawable/neutral_card_feedback">
 
             <TextView
-                android:id="@+id/mockup_feedback_text"
+                android:id="@+id/wifi_feedback_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/disconnected"
+                android:text="@string/feedback"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
