@@ -2,8 +2,10 @@ package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
 public interface MockupSettingsScreen {
 
-    void getMockupSettings();
-    void saveMockupSetting();
+    void getWiFiSettings();
+    void saveWiFiSetting();
+    void showWiFiFeedback();
+    void checkWiFiArguments();
     void showError();
 
 }
