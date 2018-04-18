@@ -4,11 +4,17 @@
     android:layout_height="match_parent"
     tools:context="hu.webandmore.androidmocapclient.app.ui.mockup_settings.MockupSettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <include layout="@layout/wifi_card"/>
+
+        <include layout="@layout/mqtt_card"/>
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -121,7 +121,7 @@
             android:id="@+id/mqtt_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/disconnected_card_feedback">
+            android:background="@drawable/neutral_card_feedback">
 
             <TextView
                 android:id="@+id/mqtt_feedback_text"
