@@ -52,17 +52,18 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="50"
+                android:layout_weight="70"
                 android:layout_height="wrap_content"
                 android:text="@string/host"
+                android:layout_marginStart="4dp"
                 android:textSize="14sp"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="50"
+                android:layout_weight="30"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="7dp"
                 android:text="@string/port"
                 android:textSize="14sp"
                 android:textColor="@color/black"/>
@@ -72,6 +73,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:weightSum="100"
+            android:padding="5dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
@@ -79,7 +81,7 @@
             <EditText
                 android:id="@+id/mockup_host"
                 android:layout_width="0dp"
-                android:layout_weight="50"
+                android:layout_weight="70"
                 android:layout_height="wrap_content"
                 android:hint="@string/host"
                 android:textColorHint="@color/grey"
@@ -89,7 +91,7 @@
             <EditText
                 android:id="@+id/mockup_port"
                 android:layout_width="0dp"
-                android:layout_weight="50"
+                android:layout_weight="30"
                 android:layout_height="wrap_content"
                 android:hint="@string/port"
                 android:textColorHint="@color/grey"
