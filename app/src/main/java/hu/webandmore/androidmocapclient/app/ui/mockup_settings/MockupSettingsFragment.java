@@ -84,7 +84,7 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
     @Override
     public void fillWiFiSettings(WiFiModel wiFiModel) {
-        mWiFiSSID.setText(wiFiModel.getSsid());
+        mWiFiSSID.setText(wiFiModel.getWifi());
         mWiFiPassword.setText(wiFiModel.getPassword());
     }
 
@@ -142,20 +142,14 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
     @OnClick(R.id.save_wifi)
     public void setWiFi(){
-        /*if(checkWiFiArguments()) {
+        if(checkWiFiArguments()) {
             Log.i(TAG, "WiFi arguments checked!");
             WiFiModel wiFi = new WiFiModel();
             wiFi.setSsid(mWiFiSSID.getText().toString());
             wiFi.setPassword(mWiFiPassword.getText().toString());
             wiFi.setAp(false);
             mockupSettingPresenter.setWiFiTask(wiFi);
-        }*/
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                executePING();
-            }
-        });
+        }
     }
 
     private boolean executePING(){

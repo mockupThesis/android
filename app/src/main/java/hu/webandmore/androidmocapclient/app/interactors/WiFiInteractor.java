@@ -34,6 +34,7 @@ public class WiFiInteractor {
     public void getWiFiStatus() {
         Log.i(TAG, "getWiFiStatus");
         Call<WiFiModel> call = wiFiService.getWiFiStatus();
+        Log.i(TAG, "getWiFiStatus: " + call.request().url().toString());
 
         call.enqueue(new Callback<WiFiModel>() {
             @Override

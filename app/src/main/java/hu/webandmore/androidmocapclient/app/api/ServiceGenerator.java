@@ -16,7 +16,7 @@ public class ServiceGenerator {
     /***
      * Mockup Suit Address on the WiFi network
      */
-    private static String MOCKUP_ADDRESS = "192.168.4.1";
+    private static String MOCKUP_ADDRESS = "192.168.1.74";
 
     public static <S> S createService(Context ctx, Class<S> serviceClass){
         OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
@@ -24,13 +24,15 @@ public class ServiceGenerator {
         httpBuilder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Request.Builder requestBuilder = chain.request().newBuilder();
+                Request.Builder requestBuilder = chain.request().newBuilder()
+                        .header("Content-Type", "application/json")
+                        .header("Accept", "application/json");
 
                 return chain.proceed(requestBuilder.build());
             }
         });
 
-        String url = "http://" + MOCKUP_ADDRESS + "/api/v1/";
+        String url = "http://" + MOCKUP_ADDRESS + "/api/";
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(url).client(httpBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create()).build();

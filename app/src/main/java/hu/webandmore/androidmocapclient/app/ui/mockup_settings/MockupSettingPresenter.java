@@ -3,6 +3,8 @@ package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
