@@ -84,7 +84,7 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
     @Override
     public void fillWiFiSettings(WiFiModel wiFiModel) {
-        mWiFiSSID.setText(wiFiModel.getWifi());
+        mWiFiSSID.setText(wiFiModel.getSsid());
         mWiFiPassword.setText(wiFiModel.getPassword());
     }
 

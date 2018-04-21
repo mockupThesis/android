@@ -4,7 +4,6 @@ package hu.webandmore.androidmocapclient.app.api.model;
 public class WiFiModel {
 
     private String ssid;
-    private String wifi;
     private String password;
     private String ip;
     private boolean connected;
@@ -40,14 +39,6 @@ public class WiFiModel {
 
     public void setAp(boolean ap) {
         this.ap = ap;
-    }
-
-    public String getWifi() {
-        return wifi;
-    }
-
-    public void setWifi(String wifi) {
-        this.wifi = wifi;
     }
 
     public String getIp() {

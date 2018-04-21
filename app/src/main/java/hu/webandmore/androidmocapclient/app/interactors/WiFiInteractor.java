@@ -3,6 +3,8 @@ package hu.webandmore.androidmocapclient.app.interactors;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
@@ -75,11 +77,15 @@ public class WiFiInteractor {
     public void setWiFiSettings(WiFiModel wiFi) {
         Log.i(TAG, "setWiFiSettings");
         Call<Void> call = wiFiService.setWiFi(wiFi);
+        Log.i(TAG, "getWiFiStatus WiFi: " + new Gson().toJson(wiFi));
+        Log.i(TAG, "getWiFiStatus: " + call.request().url().toString());
+        Log.i(TAG, "getWiFiStatus BODY: " + new Gson().toJson(call.request().body()));
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.i(TAG, "setWiFiSettings onResponse");
+                Log.i(TAG, "getWiFiStatus BODY: " + new Gson().toJson(call.request().body()));
                 if(response.isSuccessful()) {
                     wiFiEvent.setCode(response.code());
                     wiFiEvent.setWiFiEventType(WiFiEventType.SET);
@@ -110,7 +116,9 @@ public class WiFiInteractor {
     }
 
     public void saveWiFiSettings() {
+        Log.i(TAG, "saveWiFiSettings");
         Call<Void> call = wiFiService.saveWiFi();
+        Log.i(TAG, "getWiFiStatus: " + call.request().url().toString());
 
         call.enqueue(new Callback<Void>() {
             @Override

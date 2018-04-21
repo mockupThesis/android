@@ -107,10 +107,11 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
         } else {
             Log.i(TAG, "onEvent getThrowable null");
             if (screen != null) {
+                System.out.println("STATUSZKÓD: " + event.getCode());
                 if (event.getCode() == 200 ) {
                     if(event.getWiFiEventType() == WiFiEventType.GET) {
                         screen.fillWiFiSettings(event.getWiFi());
-                        screen.showWiFiFeedback(context.getString(R.string.successful),
+                        screen.showWiFiFeedback(context.getString(R.string.connected),
                                 false);
                     } else if(event.getWiFiEventType() == WiFiEventType.SET) {
                         screen.showWiFiFeedback(context.getString(R.string.wifi_changed),
