@@ -18,6 +18,7 @@
     <string name="feedback">Feedback</string>
     <string name="disconnected">Disconnected</string>
     <string name="connected">Connected</string>
+    <string name="wifi_reconnect">Connecting to the new WiFi network…</string>
     <string name="wifi_settings">WiFi Settings</string>
     <string name="ssid">SSID</string>
     <string name="password">Password</string>

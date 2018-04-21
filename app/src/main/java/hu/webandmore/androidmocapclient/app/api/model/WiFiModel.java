@@ -4,16 +4,16 @@ package hu.webandmore.androidmocapclient.app.api.model;
 public class WiFiModel {
 
     private String ssid;
-    private String password;
+    private String pass;
     private String ip;
     private boolean connected;
     private boolean ap = false;
 
     public WiFiModel(){}
 
-    public WiFiModel(String _ssid, String _password, boolean _ap) {
+    public WiFiModel(String _ssid, String _pass, boolean _ap) {
         ssid = _ssid;
-        password = _password;
+        pass = _pass;
         ap = _ap;
     }
 
@@ -26,11 +26,11 @@ public class WiFiModel {
     }
 
     public String getPassword() {
-        return password;
+        return pass;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.pass = password;
     }
 
     public boolean isAp() {

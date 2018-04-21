@@ -6,7 +6,8 @@ interface MainScreen {
 
     void checkSensorConnection();
     void showMockupFeedback(String feedbackMsg, boolean failure);
-    void fillMockupDatas(WiFiModel wiFiModel);
+    void fillMockupData(WiFiModel wiFiModel);
+    void clearMockupData();
     void showError(String errorMsg);
     void showProgressBar();
     void hideProgressBar();

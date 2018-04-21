@@ -120,9 +120,15 @@ public class MainActivity extends MainMenu implements MainScreen {
     }
 
     @Override
-    public void fillMockupDatas(WiFiModel wiFiModel) {
+    public void fillMockupData(WiFiModel wiFiModel) {
         mMockupHost.setText(wiFiModel.getIp());
         mMockupPort.setText("80");
+    }
+
+    @Override
+    public void clearMockupData() {
+        mMockupHost.clearComposingText();
+        mMockupPort.clearComposingText();
     }
 
     @Override

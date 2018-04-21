@@ -3,8 +3,6 @@ package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -13,6 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import hu.webandmore.androidmocapclient.R;
+import hu.webandmore.androidmocapclient.app.api.ServiceGenerator;
 import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
 import hu.webandmore.androidmocapclient.app.interactors.WiFiInteractor;
 import hu.webandmore.androidmocapclient.app.interactors.events.WiFiEvent;
@@ -57,7 +56,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
         return new WiFiModel(_ssid, _password, false);
     }
 
-    public void getWiFiTask() {
+    void getWiFiTask() {
         Log.i(TAG, "getWiFiTask");
         screen.showProgressBar();
         networkExecutor.execute(new Runnable() {
@@ -68,7 +67,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
         });
     }
 
-    public void setWiFiTask(final WiFiModel wiFi) {
+    void setWiFiTask(final WiFiModel wiFi) {
         Log.i(TAG, "setWiFiTask");
         screen.showProgressBar();
         networkExecutor.execute(new Runnable() {
@@ -80,12 +79,22 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
         });
     }
 
-    public void saveWifiTask() {
+    void saveWifiTask() {
         screen.showProgressBar();
         networkExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 wiFiInteractor.saveWiFiSettings();
+            }
+        });
+    }
+
+    void reconnectWiFiTask() {
+        screen.showProgressBar();
+        networkExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                wiFiInteractor.reconnectWiFi();
             }
         });
     }
@@ -117,7 +126,12 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                         screen.showWiFiFeedback(context.getString(R.string.wifi_changed),
                                 false);
                         screen.saveWiFiSetting();
+                    } else if(event.getWiFiEventType() == WiFiEventType.SAVE) {
+                        screen.showWiFiFeedback(context.getString(R.string.saved_successfully),
+                                false);
+                        screen.reconnectWiFi();
                     } else {
+                        ServiceGenerator.isApMode(context, false);
                         screen.showWiFiFeedback(context.getString(R.string.saved_successfully),
                                 false);
                     }

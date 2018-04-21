@@ -140,6 +140,11 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
         progressBar.setVisibility(View.GONE);
     }
 
+    @Override
+    public void reconnectWiFi() {
+        mockupSettingPresenter.reconnectWiFiTask();
+    }
+
     @OnClick(R.id.save_wifi)
     public void setWiFi(){
         if(checkWiFiArguments()) {

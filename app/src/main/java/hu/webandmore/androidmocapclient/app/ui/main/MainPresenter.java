@@ -11,6 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import hu.webandmore.androidmocapclient.R;
+import hu.webandmore.androidmocapclient.app.api.ServiceGenerator;
 import hu.webandmore.androidmocapclient.app.interactors.WiFiInteractor;
 import hu.webandmore.androidmocapclient.app.interactors.events.WiFiEvent;
 import hu.webandmore.androidmocapclient.app.ui.Presenter;
@@ -61,16 +62,18 @@ public class MainPresenter extends Presenter<MainScreen> {
             if (screen != null) {
                 screen.showError(event.getThrowable().getMessage());
                 screen.showMockupFeedback(event.getThrowable().getMessage(), true);
+                ServiceGenerator.isApMode(context, true);
             }
         } else {
             if (screen != null) {
                 if (event.getCode() == 200 ) {
                     if(event.getWiFiEventType() == WiFiEventType.GET) {
-                        screen.fillMockupDatas(event.getWiFi());
+                        screen.fillMockupData(event.getWiFi());
                         screen.showMockupFeedback(context.getString(R.string.connected),
                                 false);
                     }
                 } else {
+                    screen.clearMockupData();
                     screen.showError(event.getErrorMessage());
                 }
             }

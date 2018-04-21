@@ -76,7 +76,7 @@ public class WiFiInteractor {
 
     public void setWiFiSettings(WiFiModel wiFi) {
         Log.i(TAG, "setWiFiSettings");
-        Call<Void> call = wiFiService.setWiFi(wiFi);
+        Call<Void> call = wiFiService.setWiFi(new Gson().toJson(wiFi));
         Log.i(TAG, "getWiFiStatus WiFi: " + new Gson().toJson(wiFi));
         Log.i(TAG, "getWiFiStatus: " + call.request().url().toString());
         Log.i(TAG, "getWiFiStatus BODY: " + new Gson().toJson(call.request().body()));
@@ -85,7 +85,7 @@ public class WiFiInteractor {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.i(TAG, "setWiFiSettings onResponse");
-                Log.i(TAG, "getWiFiStatus BODY: " + new Gson().toJson(call.request().body()));
+                Log.i(TAG, "setWiFiStatus BODY: " + new Gson().toJson(call.request().body()));
                 if(response.isSuccessful()) {
                     wiFiEvent.setCode(response.code());
                     wiFiEvent.setWiFiEventType(WiFiEventType.SET);
@@ -126,6 +126,42 @@ public class WiFiInteractor {
                 if(response.isSuccessful()) {
                     wiFiEvent.setCode(response.code());
                     wiFiEvent.setWiFiEventType(WiFiEventType.SAVE);
+                } else {
+                    wiFiEvent.setCode(response.code());
+                    try {
+                        wiFiEvent.setErrorMessage(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                EventBus.getDefault().post(wiFiEvent);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                if(t != null) {
+                    wiFiEvent.setErrorMessage(t.getLocalizedMessage());
+                    wiFiEvent.setThrowable(t);
+                    EventBus.getDefault().post(wiFiEvent);
+                }  else {
+                    wiFiEvent.setErrorMessage(context.getString(R.string.get_wifi_failure));
+                    EventBus.getDefault().post(wiFiEvent);
+                }
+            }
+        });
+    }
+
+    public void reconnectWiFi() {
+        Log.i(TAG, "reconnectWiFi");
+        Call<Void> call = wiFiService.reconnnectToWiFi();
+        Log.i(TAG, "reconnectWiFi: " + call.request().url().toString());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()) {
+                    wiFiEvent.setCode(response.code());
+                    wiFiEvent.setWiFiEventType(WiFiEventType.RECONNECT);
                 } else {
                     wiFiEvent.setCode(response.code());
                     try {

@@ -12,5 +12,6 @@ public interface MockupSettingsScreen {
     void showError(String errorMsg);
     void showProgressBar();
     void hideProgressBar();
+    void reconnectWiFi();
 
 }
