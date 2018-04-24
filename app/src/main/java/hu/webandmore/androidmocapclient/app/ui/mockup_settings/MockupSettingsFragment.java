@@ -42,6 +42,18 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     @BindView(R.id.wifi_feedback_text)
     TextView mWiFiFeedbackText;
 
+    @BindView(R.id.mqtt_host)
+    EditText mMqttHost;
+
+    @BindView(R.id.mqtt_port)
+    EditText mMqttPort;
+
+    @BindView(R.id.mqtt_feedback)
+    RelativeLayout mMqttFeedbackLayout;
+
+    @BindView(R.id.mqtt_feedback_text)
+    TextView mMqttFeedbackText;
+
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
@@ -89,6 +101,12 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     }
 
     @Override
+    public void fillMqttSettings(WiFiModel wiFiModel) {
+        mMqttHost.setText(wiFiModel.getMqtt_host());
+        mMqttPort.setText(String.valueOf(wiFiModel.getMqtt_port()));
+    }
+
+    @Override
     public void setWiFiSettings() {
 
     }
@@ -108,6 +126,18 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
                     R.drawable.connected_card_feedback));
         }
         mWiFiFeedbackText.setText(feedbackMsg);
+    }
+
+    @Override
+    public void showMqttFeedback(String feedbackMsg, boolean failure) {
+        if(failure) {
+            mMqttFeedbackLayout.setBackground(ContextCompat.getDrawable(getContext(),
+                    R.drawable.disconnected_card_feedback));
+        } else {
+            mMqttFeedbackLayout.setBackground(ContextCompat.getDrawable(getContext(),
+                    R.drawable.connected_card_feedback));
+        }
+        mMqttFeedbackText.setText(feedbackMsg);
     }
 
     @Override
@@ -155,33 +185,6 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
             wiFi.setAp(false);
             mockupSettingPresenter.setWiFiTask(wiFi);
         }
-    }
-
-    private boolean executePING(){
-        System.out.println("execute PING");
-        Runtime runtime = Runtime.getRuntime();
-        try
-        {
-            Process  mIpAddrProcess = runtime.exec("/system/bin/ping -c 1 192.168.4.1");
-            int mExitValue = mIpAddrProcess.waitFor();
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(mIpAddrProcess.getInputStream()));
-
-            // Grab the results
-            StringBuilder log = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                //log.append(line + "\n");
-            }
-            System.out.println(" mExitValue  success " + mExitValue);
-            return mExitValue == 0;
-        }
-        catch (InterruptedException | IOException ignore)
-        {
-            ignore.printStackTrace();
-            System.out.println(" Exception:" + ignore);
-        }
-        return false;
     }
 
 }

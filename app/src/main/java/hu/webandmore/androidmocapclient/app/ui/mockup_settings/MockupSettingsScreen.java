@@ -5,9 +5,11 @@ import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
 public interface MockupSettingsScreen {
 
     void fillWiFiSettings(WiFiModel wiFiModel);
+    void fillMqttSettings(WiFiModel wiFiModel);
     void setWiFiSettings();
     void saveWiFiSetting();
     void showWiFiFeedback(String feedbackMsg, boolean failure);
+    void showMqttFeedback(String feedbackMsg, boolean failure);
     boolean checkWiFiArguments();
     void showError(String errorMsg);
     void showProgressBar();

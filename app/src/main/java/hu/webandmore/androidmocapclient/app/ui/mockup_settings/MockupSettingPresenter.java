@@ -110,6 +110,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                 Log.i(TAG, "onEvent screen is not null");
                 screen.showError(event.getThrowable().getMessage());
                 screen.showWiFiFeedback(event.getThrowable().getMessage(), true);
+                screen.showMqttFeedback(event.getThrowable().getMessage(), true);
             } else {
                 Log.i(TAG, "onEvent screen is null");
             }
@@ -120,7 +121,10 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                 if (event.getCode() == 200 ) {
                     if(event.getWiFiEventType() == WiFiEventType.GET) {
                         screen.fillWiFiSettings(event.getWiFi());
+                        screen.fillMqttSettings(event.getWiFi());
                         screen.showWiFiFeedback(context.getString(R.string.connected),
+                                false);
+                        screen.showMqttFeedback(context.getString(R.string.connected),
                                 false);
                     } else if(event.getWiFiEventType() == WiFiEventType.SET) {
                         screen.showWiFiFeedback(context.getString(R.string.wifi_changed),

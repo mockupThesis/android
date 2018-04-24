@@ -8,6 +8,8 @@ public class WiFiModel {
     private String ip;
     private boolean connected;
     private boolean ap = false;
+    private String mqtt_host;
+    private int mqtt_port;
 
     public WiFiModel(){}
 
@@ -55,5 +57,13 @@ public class WiFiModel {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+    }
+
+    public String getMqtt_host() {
+        return mqtt_host;
+    }
+
+    public int getMqtt_port() {
+        return mqtt_port;
     }
 }
