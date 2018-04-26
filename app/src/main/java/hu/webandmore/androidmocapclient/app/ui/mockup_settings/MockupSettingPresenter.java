@@ -16,6 +16,7 @@ import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
 import hu.webandmore.androidmocapclient.app.interactors.WiFiInteractor;
 import hu.webandmore.androidmocapclient.app.interactors.events.WiFiEvent;
 import hu.webandmore.androidmocapclient.app.ui.Presenter;
+import hu.webandmore.androidmocapclient.app.utils.MqttCustomClient;
 import hu.webandmore.androidmocapclient.app.utils.WiFiEventType;
 
 public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
@@ -26,6 +27,9 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
     private Context context;
 
     private WiFiInteractor wiFiInteractor;
+
+    private final String mServerUri = "tcp://mqtt.bayi.hu:1883";
+    private String clientId = "android_client";
 
     public MockupSettingPresenter(Context context) {
         this.context = context;
@@ -146,6 +150,15 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                 }
             }
         }
+    }
+
+    void connectToMqtt() {
+        clientId = clientId + System.currentTimeMillis();
+        MqttCustomClient mqttCustomClient =
+                MqttCustomClient.getInstance(context, mServerUri, clientId);
+
+        mqttCustomClient.setCallbacks(mqttCustomClient);
+        mqttCustomClient.connectToMqttBroker(mqttCustomClient, mServerUri);
     }
 
 }

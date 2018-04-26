@@ -1,6 +1,5 @@
 package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -14,10 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,6 +86,9 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     public void onResume(){
         super.onResume();
         Log.i(TAG, "onResume");
+
+        mockupSettingPresenter.connectToMqtt();
+
         mockupSettingPresenter.getWiFiTask();
     }
 

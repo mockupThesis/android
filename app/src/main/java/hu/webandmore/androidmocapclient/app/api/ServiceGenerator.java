@@ -18,7 +18,7 @@ public class ServiceGenerator {
     /***
      * Mockup Suit Address on the WiFi network
      */
-    private static String MOCKUP_ADDRESS = "192.168.1.219";
+    private static String MOCKUP_ADDRESS = "192.168.1.74";
     private static String MOCKUP_AP_ADDRESS = "192.168.4.1";
 
     private static final String AP_MODE = "AP_MODE";
