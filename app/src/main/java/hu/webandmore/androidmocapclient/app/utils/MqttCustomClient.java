@@ -20,10 +20,6 @@ public class MqttCustomClient extends MqttAndroidClient {
 
     private static volatile MqttCustomClient mMqttCustomClient = null;
 
-    private final String mSubscriptionTopic = "sensor/status";
-    private final String mPublishTopic = "sensor/status";
-    private final String mPublishMessage = "Android client";
-
     public MqttCustomClient(Context context, String serverURI, String clientId) {
         super(context, serverURI, clientId);
     }
@@ -47,7 +43,7 @@ public class MqttCustomClient extends MqttAndroidClient {
                 if (reconnect) {
                     mqttLog("Reconnected to : " + serverURI);
                     // Because Clean Session is true, we need to re-subscribe
-                    subscribeToTopic(mqttCustomClient);
+                    subscribeToTopic(mqttCustomClient, "sensor/status");
                 } else {
                     mqttLog("Connected to: " + serverURI);
                 }
@@ -86,8 +82,9 @@ public class MqttCustomClient extends MqttAndroidClient {
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttCustomClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic(mqttCustomClient);
-                    publishMessage(mqttCustomClient);
+                    subscribeToTopic(mqttCustomClient, "sensor/status");
+                    publishMessage(mqttCustomClient, "sensor/status",
+                            "Android client connected!");
                 }
 
                 @Override
@@ -104,21 +101,21 @@ public class MqttCustomClient extends MqttAndroidClient {
         }
     }
 
-    public void subscribeToTopic(MqttCustomClient mqttCustomClient){
+    public void subscribeToTopic(MqttCustomClient mqttCustomClient, final String topic){
         try {
-            mqttCustomClient.subscribe(mSubscriptionTopic, 0, null, new IMqttActionListener() {
+            mqttCustomClient.subscribe(topic, 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    mqttLog("Subscribed!");
+                    mqttLog("Subscribed to: " + topic);
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    mqttLog("Failed to subscribe");
+                    mqttLog("Failed to subscribe to: " + topic);
                 }
             });
 
-            mqttCustomClient.subscribe(mSubscriptionTopic, 0, new IMqttMessageListener() {
+            mqttCustomClient.subscribe(topic, 0, new IMqttMessageListener() {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     mqttLog("Message: " + topic + " : " + new String(message.getPayload()));
@@ -131,18 +128,19 @@ public class MqttCustomClient extends MqttAndroidClient {
         }
     }
 
-    public void publishMessage(MqttCustomClient mqttCustomClient){
+    public void publishMessage(MqttCustomClient mqttCustomClient,
+                               String topic, String publishMessage){
 
         try {
             MqttMessage message = new MqttMessage();
-            message.setPayload(mPublishMessage.getBytes());
-            mqttCustomClient.publish(mPublishTopic, message);
+            message.setPayload(publishMessage.getBytes());
+            mqttCustomClient.publish(topic, message);
             mqttLog("Message Published");
             if(!mqttCustomClient.isConnected()){
                 mqttLog(mqttCustomClient.getBufferedMessageCount() + " messages in buffer.");
             }
         } catch (MqttException e) {
-            mqttLog("Error Publishing: " + e.getMessage());
+            mqttLog("Error Publishing to: " + topic + " - " + e.getMessage());
             e.printStackTrace();
         }
     }
