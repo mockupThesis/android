@@ -1,5 +1,7 @@
 package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
+import java.util.ArrayList;
+
 import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
 
 public interface MockupSettingsScreen {
@@ -8,6 +10,7 @@ public interface MockupSettingsScreen {
     void fillMqttSettings(WiFiModel wiFiModel);
     void setWiFiSettings();
     void saveWiFiSetting();
+    void fillWiFiAdapter(ArrayList<String> wiFi);
     void showWiFiFeedback(String feedbackMsg, boolean failure);
     void showMqttFeedback(String feedbackMsg, boolean failure);
     boolean checkWiFiArguments();
@@ -15,5 +18,6 @@ public interface MockupSettingsScreen {
     void showProgressBar();
     void hideProgressBar();
     void reconnectWiFi();
+    void changeWiFiMode();
 
 }

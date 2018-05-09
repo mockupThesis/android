@@ -62,7 +62,6 @@ public class MainPresenter extends Presenter<MainScreen> {
             if (screen != null) {
                 screen.showError(event.getThrowable().getMessage());
                 screen.showMockupFeedback(event.getThrowable().getMessage(), true);
-                ServiceGenerator.isApMode(context, true);
             }
         } else {
             if (screen != null) {

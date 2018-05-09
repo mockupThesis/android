@@ -1,12 +1,17 @@
 package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
 import android.content.Context;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -27,6 +32,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
     private Context context;
 
     private WiFiInteractor wiFiInteractor;
+    private WifiManager wifiManager;
 
     private final String mServerUri = "tcp://mqtt.bayi.hu:1883";
     private String clientId = "android_client";
@@ -139,9 +145,9 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                                 false);
                         screen.reconnectWiFi();
                     } else {
-                        ServiceGenerator.isApMode(context, false);
                         screen.showWiFiFeedback(context.getString(R.string.saved_successfully),
                                 false);
+                        reconnectToMqttClient();
                     }
 
                 } else {
@@ -159,6 +165,33 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
 
         mqttCustomClient.setCallbacks(mqttCustomClient);
         mqttCustomClient.connectToMqttBroker(mqttCustomClient, mServerUri);
+    }
+
+    void reconnectToMqttClient() {
+        clientId = clientId + System.currentTimeMillis();
+        MqttCustomClient mqttCustomClient =
+                MqttCustomClient.getInstance(context, mServerUri, clientId);
+
+        mqttCustomClient.setCallbacks(mqttCustomClient);
+        try {
+            mqttCustomClient.disconnect();
+            connectToMqtt();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    ArrayList<String> scanWiFiSSID() {
+        ArrayList<String> wifis = new ArrayList<>();
+        List<ScanResult> scanResults = wifiManager.getScanResults();
+        for (int i = 0; i < scanResults.size(); i++) {
+            wifis.add(((scanResults.get(i).SSID)));
+        }
+        return wifis;
+    }
+
+    void changeDeviceAddress(boolean isAp) {
+        wiFiInteractor.changeWiFiService();
     }
 
 }

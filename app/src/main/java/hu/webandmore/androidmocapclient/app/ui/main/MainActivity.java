@@ -93,7 +93,7 @@ public class MainActivity extends MainMenu implements MainScreen {
         super.onResume();
         setActiveItem(R.id.nav_home);
 
-        mainPresenter.getWiFiTask();
+        //mainPresenter.getWiFiTask();
     }
 
     @OnClick(R.id.connect_mockup)

@@ -30,6 +30,11 @@ public class WiFiInteractor {
     public WiFiInteractor(Context _context) {
         context = _context;
         wiFiEvent = new WiFiEvent();
+        Log.i(TAG, "WiFi interactor create service");
+        this.wiFiService = ServiceGenerator.createService(context, WiFiService.class);
+    }
+
+    public void changeWiFiService() {
         this.wiFiService = ServiceGenerator.createService(context, WiFiService.class);
     }
 

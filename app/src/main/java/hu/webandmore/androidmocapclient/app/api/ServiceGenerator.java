@@ -3,6 +3,7 @@ package hu.webandmore.androidmocapclient.app.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -18,52 +19,49 @@ public class ServiceGenerator {
     /***
      * Mockup Suit Address on the WiFi network
      */
-    private static String MOCKUP_ADDRESS = "192.168.1.74";
-    private static String MOCKUP_AP_ADDRESS = "192.168.4.1";
+    private static String MOCKUP_ADDRESS = "http://192.168.1.74/api/";
+    private static String MOCKUP_AP_ADDRESS = "http://192.168.4.1/api/";
 
-    private static final String AP_MODE = "AP_MODE";
+    private static Retrofit retrofit;
+
+    private static OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder()
+            .addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request.Builder requestBuilder = chain.request().newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("Accept", "application/json");
+
+                    return chain.proceed(requestBuilder.build());
+                }
+            });
+
+    private static Retrofit.Builder builder =
+            new Retrofit.Builder()
+                    .client(httpBuilder.build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(MOCKUP_ADDRESS);
+
+    // No need to instantiate this class.
+    private ServiceGenerator() {
+
+    }
 
     public static <S> S createService(Context ctx, Class<S> serviceClass){
-
-
-        OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
-
-        httpBuilder.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request.Builder requestBuilder = chain.request().newBuilder()
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json");
-
-                return chain.proceed(requestBuilder.build());
-            }
-        });
-
-        String url = "http://" + MOCKUP_ADDRESS + "/api/";
-        /*if(getApMode(ctx)) {
-            url = "http://" + MOCKUP_AP_ADDRESS + "/api/";
-        }*/
-
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(url).client(httpBuilder.build())
-                .addConverterFactory(GsonConverterFactory.create()).build();
-
-        return retrofit.create(serviceClass);
+        return builder.build().create(serviceClass);
     }
 
-    private static boolean getApMode(Context ctx)
-    {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return pref.getBoolean(AP_MODE, false);
-    }
+    public static void changeApiBaseUrl(boolean isApMode) {
+        if(isApMode) {
+            builder = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(MOCKUP_AP_ADDRESS);
+        } else {
+            builder = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(MOCKUP_ADDRESS);
+        }
 
-    public static void isApMode(Context ctx, boolean val)
-    {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
-        SharedPreferences.Editor edit = pref.edit();
-
-        edit.putBoolean(AP_MODE, val);
-        edit.apply();
     }
 
 }

@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +59,12 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     @BindView(R.id.mainLayout)
     LinearLayout mainLayout;
 
+    @BindView(R.id.apMode)
+    ImageView mApMode;
+
+    @BindView(R.id.wifiMode)
+    ImageView mWiFiMode;
+
     private MockupSettingPresenter mockupSettingPresenter;
 
     public MockupSettingsFragment() {
@@ -79,6 +89,8 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
         mockupSettingPresenter.attachScreen(this);
         mockupSettingPresenter.registerWiFiEvent();
 
+        mockupSettingPresenter.connectToMqtt();
+
         return view;
     }
 
@@ -86,8 +98,6 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     public void onResume(){
         super.onResume();
         Log.i(TAG, "onResume");
-
-        mockupSettingPresenter.connectToMqtt();
 
         mockupSettingPresenter.getWiFiTask();
     }
@@ -112,6 +122,14 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     @Override
     public void saveWiFiSetting() {
         mockupSettingPresenter.saveWifiTask();
+    }
+
+    @Override
+    public void fillWiFiAdapter(ArrayList<String> wiFi) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, wiFi);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //mWiFiSSID.setAdapter(adapter);
     }
 
     @Override
@@ -173,6 +191,17 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
         mockupSettingPresenter.reconnectWiFiTask();
     }
 
+    @Override
+    public void changeWiFiMode() {
+        if(mApMode.getVisibility() == View.VISIBLE) {
+            mApMode.setVisibility(View.GONE);
+            mWiFiMode.setVisibility(View.VISIBLE);
+        } else {
+            mWiFiMode.setVisibility(View.GONE);
+            mApMode.setVisibility(View.VISIBLE);
+        }
+    }
+
     @OnClick(R.id.save_wifi)
     public void setWiFi(){
         if(checkWiFiArguments()) {
@@ -183,6 +212,11 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
             wiFi.setAp(false);
             mockupSettingPresenter.setWiFiTask(wiFi);
         }
+    }
+
+    @OnClick({R.id.wifiMode, R.id.apMode})
+    public void changeWiFi(){
+        changeWiFiMode();
     }
 
 }
