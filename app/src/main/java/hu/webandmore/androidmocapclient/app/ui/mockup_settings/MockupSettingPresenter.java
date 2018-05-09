@@ -1,11 +1,14 @@
 package hu.webandmore.androidmocapclient.app.ui.mockup_settings;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.widget.Toast;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -16,13 +19,14 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import hu.webandmore.androidmocapclient.R;
-import hu.webandmore.androidmocapclient.app.api.ServiceGenerator;
 import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
 import hu.webandmore.androidmocapclient.app.interactors.WiFiInteractor;
 import hu.webandmore.androidmocapclient.app.interactors.events.WiFiEvent;
 import hu.webandmore.androidmocapclient.app.ui.Presenter;
 import hu.webandmore.androidmocapclient.app.utils.MqttCustomClient;
 import hu.webandmore.androidmocapclient.app.utils.WiFiEventType;
+
+import static android.provider.ContactsContract.Intents.Insert.ACTION;
 
 public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
 
@@ -37,10 +41,14 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
     private final String mServerUri = "tcp://mqtt.bayi.hu:1883";
     private String clientId = "android_client";
 
+    private BroadcastReceiver wifiReceiver;
+
     public MockupSettingPresenter(Context context) {
         this.context = context;
         networkExecutor = Executors.newFixedThreadPool(1);
         wiFiInteractor = new WiFiInteractor(context);
+        wifiManager = (WifiManager)
+                context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     @Override
@@ -121,6 +129,7 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                 screen.showError(event.getThrowable().getMessage());
                 screen.showWiFiFeedback(event.getThrowable().getMessage(), true);
                 screen.showMqttFeedback(event.getThrowable().getMessage(), true);
+                screen.changeWiFiModeIcon(true);
             } else {
                 Log.i(TAG, "onEvent screen is null");
             }
@@ -128,8 +137,10 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
             Log.i(TAG, "onEvent getThrowable null");
             if (screen != null) {
                 System.out.println("STATUSZKÓD: " + event.getCode());
+                screen.changeWiFiModeIcon(false);
                 if (event.getCode() == 200 ) {
                     if(event.getWiFiEventType() == WiFiEventType.GET) {
+                        Log.i(TAG, "GET 200 status code");
                         screen.fillWiFiSettings(event.getWiFi());
                         screen.fillMqttSettings(event.getWiFi());
                         screen.showWiFiFeedback(context.getString(R.string.connected),
@@ -147,7 +158,6 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
                     } else {
                         screen.showWiFiFeedback(context.getString(R.string.saved_successfully),
                                 false);
-                        reconnectToMqttClient();
                     }
 
                 } else {
@@ -167,30 +177,30 @@ public class MockupSettingPresenter extends Presenter<MockupSettingsScreen> {
         mqttCustomClient.connectToMqttBroker(mqttCustomClient, mServerUri);
     }
 
-    void reconnectToMqttClient() {
-        clientId = clientId + System.currentTimeMillis();
-        MqttCustomClient mqttCustomClient =
-                MqttCustomClient.getInstance(context, mServerUri, clientId);
-
-        mqttCustomClient.setCallbacks(mqttCustomClient);
-        try {
-            mqttCustomClient.disconnect();
-            connectToMqtt();
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
 
     ArrayList<String> scanWiFiSSID() {
-        ArrayList<String> wifis = new ArrayList<>();
-        List<ScanResult> scanResults = wifiManager.getScanResults();
-        for (int i = 0; i < scanResults.size(); i++) {
-            wifis.add(((scanResults.get(i).SSID)));
-        }
+        final ArrayList<String> wifis = new ArrayList<>();
+        final IntentFilter theFilter = new IntentFilter();
+        theFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        wifiReceiver = new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive(Context c, Intent intent)
+            {
+                List<ScanResult> scanResults = wifiManager.getScanResults();
+                for (int i = 0; i < scanResults.size(); i++) {
+                    Log.i(TAG, scanResults.get(i).SSID);
+                    wifis.add(((scanResults.get(i).SSID)));
+                }
+            }
+        };
+
+        context.registerReceiver(wifiReceiver, theFilter);
+
         return wifis;
     }
 
-    void changeDeviceAddress(boolean isAp) {
+    void changeDeviceAddress() {
         wiFiInteractor.changeWiFiService();
     }
 

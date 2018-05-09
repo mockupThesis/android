@@ -19,5 +19,6 @@ public interface MockupSettingsScreen {
     void hideProgressBar();
     void reconnectWiFi();
     void changeWiFiMode();
+    void changeWiFiModeIcon(boolean isFailure);
 
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hu.webandmore.androidmocapclient.R;
+import hu.webandmore.androidmocapclient.app.api.ServiceGenerator;
 import hu.webandmore.androidmocapclient.app.api.model.WiFiModel;
 
 public class MockupSettingsFragment extends Fragment implements MockupSettingsScreen {
@@ -30,7 +32,7 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
 
     @BindView(R.id.wifi_ssid)
-    EditText mWiFiSSID;
+    AutoCompleteTextView mWiFiSSID;
 
     @BindView(R.id.wifi_password)
     EditText mWiFiPassword;
@@ -85,9 +87,13 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
 
         Log.i(TAG, "onCreateView");
         ButterKnife.bind(this, view);
+
         mockupSettingPresenter = new MockupSettingPresenter(getContext());
         mockupSettingPresenter.attachScreen(this);
         mockupSettingPresenter.registerWiFiEvent();
+
+
+        mWiFiSSID.setThreshold(1);
 
         mockupSettingPresenter.connectToMqtt();
 
@@ -99,6 +105,9 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
         super.onResume();
         Log.i(TAG, "onResume");
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.select_dialog_singlechoice, mockupSettingPresenter.scanWiFiSSID());
+        mWiFiSSID.setAdapter(adapter);
         mockupSettingPresenter.getWiFiTask();
     }
 
@@ -196,9 +205,22 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
         if(mApMode.getVisibility() == View.VISIBLE) {
             mApMode.setVisibility(View.GONE);
             mWiFiMode.setVisibility(View.VISIBLE);
+            ServiceGenerator.changeApiBaseUrl(false);
         } else {
             mWiFiMode.setVisibility(View.GONE);
             mApMode.setVisibility(View.VISIBLE);
+            ServiceGenerator.changeApiBaseUrl(true);
+        }
+    }
+
+    @Override
+    public void changeWiFiModeIcon(boolean isFailure) {
+        if(isFailure) {
+            mWiFiMode.setVisibility(View.GONE);
+            mApMode.setVisibility(View.VISIBLE);
+        } else {
+            mApMode.setVisibility(View.GONE);
+            mWiFiMode.setVisibility(View.VISIBLE);
         }
     }
 
@@ -217,6 +239,7 @@ public class MockupSettingsFragment extends Fragment implements MockupSettingsSc
     @OnClick({R.id.wifiMode, R.id.apMode})
     public void changeWiFi(){
         changeWiFiMode();
+        mockupSettingPresenter.changeDeviceAddress();
     }
 
 }

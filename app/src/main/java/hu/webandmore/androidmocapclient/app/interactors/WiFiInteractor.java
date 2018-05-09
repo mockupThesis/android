@@ -50,6 +50,7 @@ public class WiFiInteractor {
                     Log.i(TAG, "getWiFiStatus success");
                     wiFiEvent.setCode(response.code());
                     wiFiEvent.setWiFi(response.body());
+                    wiFiEvent.setThrowable(null);
                     wiFiEvent.setWiFiEventType(WiFiEventType.GET);
                 } else {
                     Log.i(TAG, "getWiFiStatus not success");
